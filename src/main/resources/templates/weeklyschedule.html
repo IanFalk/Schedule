@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Employee Schedule</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h2>Schedule</h2>
+    <p>check this</p>
+    <table>
+        <style>
+            th, td {
+            border: 1px solid black;
+            padding: 15px;
+            text-align: center;
+            }
+        </style>
+
+        <thead>
+            <tr>
+                <td rowspan="1"></td>
+                <th scope="col" th:text="${dates.get(0)}"></th>
+                <th scope="col" th:text="${dates.get(1)}"></th>
+                <th scope="col" th:text="${dates.get(2)}"></th>
+                <th scope="col" th:text="${dates.get(3)}"></th>
+                <th scope="col" th:text="${dates.get(4)}"></th>
+                <th scope="col" th:text="${dates.get(5)}"></th>
+                <th scope="col" th:text="${dates.get(6)}"></th>
+            </tr>
+            <tr>
+                <th scope="col">Employee</th>
+                <th scope="col" th:text="${dates.get(0).getDayOfWeek()}"></th>
+                <th scope="col" th:text="${dates.get(1).getDayOfWeek()}"></th>
+                <th scope="col" th:text="${dates.get(2).getDayOfWeek()}"></th>
+                <th scope="col" th:text="${dates.get(3).getDayOfWeek()}"></th>
+                <th scope="col" th:text="${dates.get(4).getDayOfWeek()}"></th>
+                <th scope="col" th:text="${dates.get(5).getDayOfWeek()}"></th>
+                <th scope="col" th:text="${dates.get(6).getDayOfWeek()}"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="emps, state: ${emps}">
+                <td th:text="${emps.getFullName()}"></td>
+                <td th:text="${schedule[state.index][0]}"></td>
+                <td th:text="${schedule[state.index][1]}"></td>
+                <td th:text="${schedule[state.index][2]}"></td>
+                <td th:text="${schedule[state.index][3]}"></td>
+                <td th:text="${schedule[state.index][4]}"></td>
+                <td th:text="${schedule[state.index][5]}"></td>
+                <td th:text="${schedule[state.index][6]}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
