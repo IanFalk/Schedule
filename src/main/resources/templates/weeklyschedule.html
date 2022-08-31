@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head> 
-    <title>Employee Schedule</title> 
+    <title>Weekly Schedule</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
+    <button onclick="location.href='/schedule/employee';">Your Schedule</button>
 </head>
 <body>
-    <h2>Schedule</h2>
-    <p>check this</p>
+    <h1 th:text="${user}"></h1>
     <table>
         <style>
             th, td {
@@ -15,7 +16,6 @@
             text-align: center;
             }
         </style>
-
         <thead>
             <tr>
                 <td rowspan="1"></td>
@@ -52,5 +52,8 @@
             </tr>
         </tbody>
     </table>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </body>
 </html>

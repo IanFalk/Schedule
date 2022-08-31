@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
+    <button onclick="location.href='/schedule/employee';">Your Schedule</button> 
+    <title>Your Schedule</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1 th:text="${employee.getFullName()}"></h1>
+    <table>
+        <style>
+            th, td {
+            border: 1px solid black;
+            padding: 15px;
+            text-align: center;
+            }
+        </style>
+
+        <tbody>
+            <tr th:each="shifts, state: ${shifts}">
+                <th scope="col" th:text="${shifts.getDate()}"></th>
+                <th scope="col" th:text="${shifts.getDate().getDayOfWeek()}"></th>
+                <td th:text="${shifts.getShift()}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</body>
+</html>

@@ -21,12 +21,14 @@ public class Employee {
     private int id;
     private String firstName;
     private String lastName;
+    private String role;
 
     protected Employee() {}
 
-    public Employee(String firstName, String lastName) {
+    public Employee(String firstName, String lastName, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.role = role;
     }
 
     public int getId() {
@@ -45,10 +47,14 @@ public class Employee {
         return firstName+" "+lastName;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     @Override
     public String toString() {
         return String.format(
-            "Employee[id=%d, firstName='%s', lastName='%s']",
-            id, firstName, lastName);
+            "Employee[id=%d, firstName='%s', lastName='%s', role='%s']",
+            id, firstName, lastName, role);
     }
 }

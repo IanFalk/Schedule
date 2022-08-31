@@ -1,10 +1,16 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 <head> 
-    <title>Getting Started: Serving Web Content</title> 
+    <title>Schedule Landing Page</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
+    <button onclick="location.href='/schedule/employee';">Your Schedule</button>
 </head>
 <body>
-    <p>Get your greeting <a href="/greeting">here</a></p>
+    <p>View schedule <a href="/weeklyschedule">here</a></p>
+    <h1 th:text="${user}"></h1>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
 </body>
 </html>
