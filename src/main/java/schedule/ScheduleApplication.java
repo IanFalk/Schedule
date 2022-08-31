@@ -2,13 +2,22 @@ package schedule;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @SpringBootApplication
 public class ScheduleApplication {
@@ -21,13 +30,13 @@ public class ScheduleApplication {
 
 	@Bean
 	public CommandLineRunner demo(EmployeeRepository eRepo, scheduleDataRepository sdRepo) {
-		return (args) -> {
+		return args -> {
 			// save Employees to the database
-			eRepo.save(new Employee("Jack", "Bauer"));
-			eRepo.save(new Employee("Chloe", "O'Brian"));
-			eRepo.save(new Employee("Kim", "Bauer"));
-			eRepo.save(new Employee("David", "Palmer"));
-			eRepo.save(new Employee("Michelle", "Dessler"));
+			eRepo.save(new Employee("Jack", "Bauer", "MANAGER"));
+			eRepo.save(new Employee("Chloe", "O'Brian", "EMPLOYEE"));
+			eRepo.save(new Employee("Kim", "Bauer", "EMPLOYEE"));
+			eRepo.save(new Employee("David", "Palmer", "EMPLOYEE"));
+			eRepo.save(new Employee("Michelle", "Dessler", "EMPLOYEE"));
 
 			//Some test data, setting dates and times for employee shifts
 			LocalDate date = LocalDate.now();
@@ -65,7 +74,42 @@ public class ScheduleApplication {
 			log.info("");
 			*/
 
+			createAllUsers(eRepo);
+
 		};
+	}
+
+	@Autowired
+	public InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    @Autowired
+	public PasswordEncoder passwordEncoder;
+
+    public String createAllUsers(EmployeeRepository eRepo) {
+        List<Employee> employees = eRepo.findAll();
+
+        for(Employee emp : employees) {
+            if(emp.getRole().equals("EMPLOYEE")) {
+                //Creates a Employee with username first initial last name. Ex: Jack Bauer = jbauer
+                //User gets password "password" and the employee role
+                log.info(createUser(emp.getFirstName().charAt(0) + emp.getLastName(), "password", "EMPLOYEE"));
+            } else if(emp.getRole().equals("MANAGER")) {
+                //Creates a Manager with username first initial last name. Ex: Jack Bauer = jbauer
+                //User gets password "password" and the manager role
+                log.info(createUser(emp.getFirstName().charAt(0) + emp.getLastName(), "password", "MANAGER"));
+            }
+        }
+        return "index";               
+    }
+
+    public String createUser(@PathVariable("username") String username, @PathVariable("password") String password,
+			@PathVariable("role") String role)
+	{
+		
+		ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
+		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
+		User test = new User(username, passwordEncoder.encode(password), grantedAuthoritiesList);
+		inMemoryUserDetailsManager.createUser(test);
+		return username + " user has been created";
 	}
 
 }
