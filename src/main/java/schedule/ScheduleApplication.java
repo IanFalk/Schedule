@@ -17,7 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @SpringBootApplication
 public class ScheduleApplication {
@@ -86,7 +85,6 @@ public class ScheduleApplication {
 
     public String createAllUsers(EmployeeRepository eRepo) {
         List<Employee> employees = eRepo.findAll();
-
         for(Employee emp : employees) {
             if(emp.getRole().equals("EMPLOYEE")) {
                 //Creates a Employee with username first initial last name. Ex: Jack Bauer = jbauer
@@ -101,15 +99,15 @@ public class ScheduleApplication {
         return "index";               
     }
 
-    public String createUser(@PathVariable("username") String username, @PathVariable("password") String password,
-			@PathVariable("role") String role)
+	public String createUser(String username, String password, String role)
 	{
-		
 		ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
 		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
-		User test = new User(username, passwordEncoder.encode(password), grantedAuthoritiesList);
+        User test = new User(username, passwordEncoder.encode(password), grantedAuthoritiesList);
 		inMemoryUserDetailsManager.createUser(test);
 		return username + " user has been created";
 	}
+
+    
 
 }

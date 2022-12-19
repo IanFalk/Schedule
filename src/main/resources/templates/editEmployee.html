@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head> 
+    <title>Schedule Landing Page</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
+    <button onclick="location.href='/schedule/employee';">Your Schedule</button>
+</head>
+<body>
+    <p>Edit an employee</p>
+    <form action="/manager/employee/edit/select">
+        <select name="editEmp" id="editEmp" required autofocus>
+            <tr th:each="employee: ${employees}">
+                <option th:value="${employee.getId()}" th:text="${employee.getFullName()}"></option>
+            </tr>
+        <input type="submit" value="Submit"><br><br>
+        </select>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</body>
+</html>

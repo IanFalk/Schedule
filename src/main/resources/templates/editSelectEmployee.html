@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head> 
+    <title>Schedule Landing Page</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
+    <button onclick="location.href='/schedule/employee';">Your Schedule</button>
+</head>
+<body>
+    <p>Edit an employee</p>
+    <form action="/manager/employee/edit/data">
+        <label for="fname">First name:</label><br>
+        <input type="text" id="fname" name="fname" th:value="${employee.getFirstName()}"><br>
+        <label for="lname">Last name:</label><br>
+        <input type="text" id="lname" name="lname" th:value="${employee.getLastName()}"><br>
+        <label for="id">ID:</label><br>
+        <input type="text" id="id" name="id" th:value="${employee.getId()}" readonly><br>
+        <label for="role">Role:</label><br>
+        <select name="role" id="role">
+            <option value="EMPLOYEE">Employee</option>
+            <option value="MANAGER">Manager</option>
+        </select><br><br>
+        <input type="submit" value="Submit"><br><br>
+    </form>
+    <form th:action="@{/logout}" method="post">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</body>
+</html>

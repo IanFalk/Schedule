@@ -51,6 +51,18 @@ public class Employee {
         return role;
     }
 
+    public void setFirstName(String fname) {
+        this.firstName = fname;
+    }
+
+    public void setLastName(String lname) {
+        this.lastName = lname;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return String.format(
