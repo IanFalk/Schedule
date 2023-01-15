@@ -33,12 +33,15 @@ public class GreetingController {
     @Autowired
     private scheduleDataRepository sdRepo;
 
+    public List<String> listOfRoles;
+
     private static final Logger log = LoggerFactory.getLogger(GreetingController.class);
 
     
-	@GetMapping({"/schedule/weekly","/"}/* */)
+	@GetMapping({"/schedule/weekly","/"})
 	public String weeklySchedule(Model model, Principal principal) {
 
+        listOfRoles = ScheduleApplication.listOfRoles;
         //Gets todays date, the date with which to start displaying the schedule
         LocalDate localDate = LocalDate.now();
 
@@ -74,7 +77,7 @@ public class GreetingController {
             }
 
             //Convert Date to string formatted like: "Sunday 12/18"
-            dates.add(currentDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.getDefault()) + " " + formatter.format(currentDate));
+            dates.add(currentDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.getDefault()) + " " + formatter.format(currentDate));
 
         }
 
@@ -144,6 +147,11 @@ public class GreetingController {
         return "createEmployee";
     }
 
+    @GetMapping("manager")
+    public String showManagerFeatures() {
+        return "managerFeatures";
+    }
+
     @GetMapping("manager/employee/add")
     public String showAddEmployee() {
         return "createEmployee";
@@ -153,7 +161,8 @@ public class GreetingController {
     public String getDeleteEmployee(Model model, int deleteEmp) {
         log.info(eRepo.findById(deleteEmp).getFullName()+" has been deleted");
         eRepo.deleteById(deleteEmp);
-        return "deleteEmployee";
+
+        return showDeleteEmployee(model);
     }
 
     @GetMapping("manager/employee/delete")
@@ -165,8 +174,10 @@ public class GreetingController {
 
     @GetMapping("manager/employee/edit/select")
     public String showSelectEmployee(Model model, int editEmp) {
+        List<String> roles = eRepo.findAllRoles();
         Employee emp = eRepo.findById(editEmp);
         model.addAttribute("employee", emp);
+        model.addAttribute("roles", roles);
         return "editSelectEmployee";
     }
 
@@ -184,7 +195,8 @@ public class GreetingController {
         emp.setLastName(lname);
         emp.setRole(role);
         eRepo.save(emp);
-        return "editEmployee";
+
+        return showEditEmployee(model);
     }
 
 }

@@ -1,11 +1,26 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head> 
-    <title>Schedule Landing Page</title> 
+    <link rel="stylesheet" href="/css/schedulestyle.css">
+    <title>Edit an Employee</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
-    <button onclick="location.href='/schedule/employee';">Your Schedule</button>
 </head>
+
+<header>
+    <div class="buttons">
+        <a class="button" href="/schedule/weekly">Weekly Schedule</a>
+        <a class="button" href="/schedule/employee">Your Schedule</a>
+        <a class="button" href="/manager/employee/edit">Edit Employees</a>
+        <a class="button" href="/manager/employee/delete">Delete Employees</a>
+        <a class="button" href="/manager/employee/add">Add an Employee</a>
+    </div>
+    <div class="signout">
+        <form th:action="@{/logout}" method="post">
+            <input class="signout" type="submit" value="Sign Out"/>
+        </form>
+    </div>
+</header>
+
 <body>
     <p>Edit an employee</p>
     <form action="/manager/employee/edit/select">
@@ -15,9 +30,6 @@
             </tr>
         <input type="submit" value="Submit"><br><br>
         </select>
-    </form>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
     </form>
 </body>
 </html>

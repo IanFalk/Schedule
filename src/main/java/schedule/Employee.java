@@ -7,10 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /*  Example of database structure
- *  _____________________
- * | 1 | Jack  | Bauer  |
- * | 2 | David | Palmer |
- * |____________________|
+ *  ________________________________
+ * | 1 | Jack  | Bauer  | Manager  |
+ * | 2 | David | Palmer | Employee |
+ * |____________________|__________|
  */
 @Entity
 @Table(name="Employees")

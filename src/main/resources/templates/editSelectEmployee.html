@@ -1,11 +1,26 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head> 
-    <title>Schedule Landing Page</title> 
+    <link rel="stylesheet" href="/css/schedulestyle.css">
+    <title>Edit Employee</title> 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <button onclick="location.href='/schedule/weekly';">Weekly Schedule</button>
-    <button onclick="location.href='/schedule/employee';">Your Schedule</button>
 </head>
+
+<header>
+    <div class="buttons">
+        <a class="button" href="/schedule/weekly">Weekly Schedule</a>
+        <a class="button" href="/schedule/employee">Your Schedule</a>
+        <a class="button" href="/manager/employee/edit">Edit Employees</a>
+        <a class="button" href="/manager/employee/delete">Delete Employees</a>
+        <a class="button" href="/manager/employee/add">Add an Employee</a>
+    </div>
+    <div class="signout">
+        <form th:action="@{/logout}" method="post">
+            <input class="signout" type="submit" value="Sign Out"/>
+        </form>
+    </div>
+</header>
+
 <body>
     <p>Edit an employee</p>
     <form action="/manager/employee/edit/data">
@@ -14,16 +29,13 @@
         <label for="lname">Last name:</label><br>
         <input type="text" id="lname" name="lname" th:value="${employee.getLastName()}"><br>
         <label for="id">ID:</label><br>
-        <input type="text" id="id" name="id" th:value="${employee.getId()}" readonly><br>
+        <input type="text" id="id" name="id" th:value="${employee.getId()}" style="background-color:lightgray" readonly><br>
         <label for="role">Role:</label><br>
         <select name="role" id="role">
             <option value="EMPLOYEE">Employee</option>
             <option value="MANAGER">Manager</option>
         </select><br><br>
         <input type="submit" value="Submit"><br><br>
-    </form>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
     </form>
 </body>
 </html>

@@ -22,7 +22,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 public class ScheduleApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(ScheduleApplication.class);
-	
+	public List<String> listOfRoles;
+
 	public static void main(String[] args) {
 		SpringApplication.run(ScheduleApplication.class, args);
 	}
@@ -30,6 +31,10 @@ public class ScheduleApplication {
 	@Bean
 	public CommandLineRunner demo(EmployeeRepository eRepo, scheduleDataRepository sdRepo) {
 		return args -> {
+			//Add Roles to the list
+			listOfRoles.add("MANAGER");
+			listOfRoles.add("EMPLOYEE");
+			listOfRoles.add("ADMIN");
 			// save Employees to the database
 			eRepo.save(new Employee("Jack", "Bauer", "MANAGER"));
 			eRepo.save(new Employee("Chloe", "O'Brian", "EMPLOYEE"));
