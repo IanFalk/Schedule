@@ -41,7 +41,7 @@ public class GreetingController {
 	@GetMapping({"/schedule/weekly","/"})
 	public String weeklySchedule(Model model, Principal principal) {
 
-        listOfRoles = ScheduleApplication.listOfRoles;
+        //listOfRoles = ScheduleApplication.listOfRoles;
         //Gets todays date, the date with which to start displaying the schedule
         LocalDate localDate = LocalDate.now();
 
@@ -174,10 +174,10 @@ public class GreetingController {
 
     @GetMapping("manager/employee/edit/select")
     public String showSelectEmployee(Model model, int editEmp) {
-        List<String> roles = eRepo.findAllRoles();
+        //List<String> roles = eRepo.findAllRoles();
         Employee emp = eRepo.findById(editEmp);
         model.addAttribute("employee", emp);
-        model.addAttribute("roles", roles);
+        //model.addAttribute("roles", roles);
         return "editSelectEmployee";
     }
 
