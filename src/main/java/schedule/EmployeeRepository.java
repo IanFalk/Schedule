@@ -2,11 +2,9 @@ package schedule;
 
 import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.CrudRepository;
 
-@Repository
-public interface EmployeeRepository extends JpaRepository<Employee, Integer>{
+public interface EmployeeRepository extends CrudRepository<Employee, Integer>{
 
   //Return a list of all employees with lastname "lastName"
   List<Employee> findByLastName(String lastName);

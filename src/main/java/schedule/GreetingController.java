@@ -38,7 +38,7 @@ public class GreetingController {
     private static final Logger log = LoggerFactory.getLogger(GreetingController.class);
 
     
-	@GetMapping({"/schedule/weekly","/"})
+	/*@GetMapping({"/schedule/weekly","/"})
 	public String weeklySchedule(Model model, Principal principal) {
 
         //listOfRoles = ScheduleApplication.listOfRoles;
@@ -125,7 +125,7 @@ public class GreetingController {
 
         return "employeeschedule";
         
-    }
+    }*/
 
     @GetMapping("/index")
     public String showIndex(Model model) {
@@ -157,7 +157,7 @@ public class GreetingController {
         return "createEmployee";
     }
 
-    @GetMapping("manager/employee/delete/data")
+    /*@GetMapping("manager/employee/delete/data")
     public String getDeleteEmployee(Model model, int deleteEmp) {
         log.info(eRepo.findById(deleteEmp).getFullName()+" has been deleted");
         eRepo.deleteById(deleteEmp);
@@ -197,6 +197,6 @@ public class GreetingController {
         eRepo.save(emp);
 
         return showEditEmployee(model);
-    }
+    }*/
 
 }
