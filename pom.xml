@@ -9,13 +9,14 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>ScheduleApp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>schedule</name>
-	<description>Schedule app</description>
+	<name>Schedule</name>
+	<description>Scheduling app</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.mysql</groupId>

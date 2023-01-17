@@ -24,7 +24,6 @@ public class scheduleDatabase implements Serializable {
     private LocalDate date;
     @Id
     private long empId;
-    
     private LocalTime startTime;
     private LocalTime endTime;
 
