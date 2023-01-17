@@ -12,8 +12,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
@@ -134,19 +136,6 @@ public class GreetingController {
         return "index";
     }
 
-    @Autowired
-    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
-    @GetMapping("manager/employee/add/data")
-    public String getAddEmployee(Model model, String fname, String lname, String pass, String role) {
-        Employee emp = new Employee(fname, lname, role);
-        eRepo.save(emp);
-        ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
-		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
-        inMemoryUserDetailsManager.createUser(new User(fname.charAt(0)+lname, pass, grantedAuthoritiesList));
-        log.info(fname+lname+" user has been created");
-        return "createEmployee";
-    }
-
     @GetMapping("manager")
     public String showManagerFeatures() {
         return "managerFeatures";
@@ -157,9 +146,23 @@ public class GreetingController {
         return "createEmployee";
     }
 
-    /*@GetMapping("manager/employee/delete/data")
-    public String getDeleteEmployee(Model model, int deleteEmp) {
-        log.info(eRepo.findById(deleteEmp).getFullName()+" has been deleted");
+    @Autowired
+    private InMemoryUserDetailsManager inMemoryUserDetailsManager;
+    @PostMapping("manager/employee/add")
+    public String showAddEmployee(@RequestParam String fname, @RequestParam String lname, @RequestParam String pass, @RequestParam String role) {
+        //Create new employee in database
+        Employee emp = new Employee(fname, lname, role);
+        eRepo.save(emp);
+
+        //Create new login for employee
+        ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
+		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
+        inMemoryUserDetailsManager.createUser(new User(fname.charAt(0)+lname, pass, grantedAuthoritiesList));
+        return showAddEmployee();
+    }
+
+    @PostMapping("manager/employee/delete")
+    public String getDeleteEmployee(@RequestParam int deleteEmp, Model model) {
         eRepo.deleteById(deleteEmp);
 
         return showDeleteEmployee(model);
@@ -172,6 +175,7 @@ public class GreetingController {
         return "deleteEmployee";
     }
 
+    /*
     @GetMapping("manager/employee/edit/select")
     public String showSelectEmployee(Model model, int editEmp) {
         //List<String> roles = eRepo.findAllRoles();
