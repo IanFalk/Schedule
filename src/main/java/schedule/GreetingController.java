@@ -164,7 +164,6 @@ public class GreetingController {
         return "deleteEmployee";
     }
 
-    /*
     @GetMapping("manager/employee/edit/select")
     public String showSelectEmployee(Model model, int editEmp) {
         //List<String> roles = eRepo.findAllRoles();
@@ -181,15 +180,16 @@ public class GreetingController {
         return "editEmployee";
     }
 
-    @GetMapping("manager/employee/edit/data")
-    public String getEditEmployee(Model model, String fname, String lname, int id, String role) {
+    @PostMapping("manager/employee/edit/select")
+    public String getEditEmployee(Model model, @RequestParam String fname, @RequestParam String lname, @RequestParam int id, @RequestParam String role) {
         Employee emp = eRepo.findById(id);
         emp.setFirstName(fname);
         emp.setLastName(lname);
         emp.setRole(role);
         eRepo.save(emp);
 
+        //TODO: Add prompt that data was changed sucessfully
         return showEditEmployee(model);
-    }*/
+    }
 
 }
