@@ -1,5 +1,8 @@
 package schedule;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +19,7 @@ import javax.persistence.Table;
 @Table(name="Employees")
 public class Employee {
     
+    protected static final List<String> ROLES_LIST = Arrays.asList("Employee", "Manager", "Owner");
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int id;

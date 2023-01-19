@@ -23,7 +23,7 @@
 
 <body>
     <p>Edit an employee</p>
-    <form action="/manager/employee/edit/data">
+    <form action="/manager/employee/edit" th:action="@{/manager/employee/edit}" method="post">
         <label for="fname">First name:</label><br>
         <input type="text" id="fname" name="fname" th:value="${employee.getFirstName()}"><br>
         <label for="lname">Last name:</label><br>

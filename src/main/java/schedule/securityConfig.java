@@ -40,6 +40,7 @@ public class securityConfig {
     
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        //Add a few default users, admin and guest
         List<UserDetails> users = new ArrayList<>();
         users.add(User.withUsername("admin").password(passwordEncoder().encode("password"))
 			.roles("ADMIN").build());

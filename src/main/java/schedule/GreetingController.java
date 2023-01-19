@@ -15,24 +15,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Controller
 public class GreetingController {
 
+    private static final Logger log = LoggerFactory.getLogger(GreetingController.class);
+    
     @Autowired
     private EmployeeRepository eRepo;
     @Autowired
     private scheduleDataRepository sdRepo;
-
-    public List<String> listOfRoles;
-
     
-	/*@GetMapping({"/schedule/weekly","/"})
-	public String weeklySchedule(Model model, Principal principal) {
+	@GetMapping({"/schedule/weekly","/"})
+	public String showWeeklySchedule(Model model, Principal principal) {
 
-        //listOfRoles = ScheduleApplication.listOfRoles;
         //Gets todays date, the date with which to start displaying the schedule
         LocalDate localDate = LocalDate.now();
 
@@ -84,7 +88,7 @@ public class GreetingController {
 
     //Get the weekly schedule for only this employee
     @GetMapping("/schedule/employee")
-    public String employeeSchedule(Model model, Principal principal) {
+    public String showEmployeeSchedule(Model model, Principal principal) {
         //Get the name of the user accessing this page
         String name = principal.getName();
         //Find users with the last name present in the username
@@ -116,7 +120,7 @@ public class GreetingController {
 
         return "employeeschedule";
         
-    }*/
+    }
 
     @GetMapping("/index")
     public String showIndex(Model model) {
@@ -131,14 +135,17 @@ public class GreetingController {
     }
 
     @GetMapping("manager/employee/add")
-    public String showAddEmployee() {
+    public String showAddEmployee(Model model) {
+        List<String> ROLES_LIST = Employee.ROLES_LIST;
+        model.addAttribute("roles", ROLES_LIST);
         return "createEmployee";
     }
 
     @Autowired
     private InMemoryUserDetailsManager inMemoryUserDetailsManager;
     @PostMapping("manager/employee/add")
-    public String showAddEmployee(@RequestParam String fname, @RequestParam String lname, @RequestParam String pass, @RequestParam String role) {
+    public String getAddEmployee(Model model, @RequestParam String fname, @RequestParam String lname, @RequestParam String pass, @RequestParam String role) {
+        
         //Create new employee in database
         Employee emp = new Employee(fname, lname, role);
         eRepo.save(emp);
@@ -147,7 +154,8 @@ public class GreetingController {
         ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
 		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
         inMemoryUserDetailsManager.createUser(new User(fname.charAt(0)+lname, pass, grantedAuthoritiesList));
-        return showAddEmployee();
+        
+        return showAddEmployee(model);
     }
 
     @PostMapping("manager/employee/delete")
@@ -164,15 +172,6 @@ public class GreetingController {
         return "deleteEmployee";
     }
 
-    @GetMapping("manager/employee/edit/select")
-    public String showSelectEmployee(Model model, int editEmp) {
-        //List<String> roles = eRepo.findAllRoles();
-        Employee emp = eRepo.findById(editEmp);
-        model.addAttribute("employee", emp);
-        //model.addAttribute("roles", roles);
-        return "editSelectEmployee";
-    }
-
     @GetMapping("manager/employee/edit")
     public String showEditEmployee(Model model) {
         List<Employee> employees = eRepo.findAll();
@@ -180,7 +179,16 @@ public class GreetingController {
         return "editEmployee";
     }
 
-    @PostMapping("manager/employee/edit/select")
+    @GetMapping("manager/employee/edit/select")
+    public String showEditSelectEmployee(Model model, int editEmp) {
+        //List<String> roles = eRepo.findAllRoles();
+        Employee emp = eRepo.findById(editEmp);
+        model.addAttribute("employee", emp);
+        //model.addAttribute("roles", roles);
+        return "editSelectEmployee";
+    }
+
+    @PostMapping("manager/employee/edit")
     public String getEditEmployee(Model model, @RequestParam String fname, @RequestParam String lname, @RequestParam int id, @RequestParam String role) {
         Employee emp = eRepo.findById(id);
         emp.setFirstName(fname);

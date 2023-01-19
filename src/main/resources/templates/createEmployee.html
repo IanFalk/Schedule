@@ -32,8 +32,8 @@
         <input type="password" id="pass" name="pass"><br>
         <label for="role">Role:</label><br>
         <select name="role" id="role">
-            <option value="EMPLOYEE">Employee</option>
-            <option value="MANAGER">Manager</option>
+            <option value="0">Select Role</option>
+            <option th:each="option : ${roles}" th:value="${option}" th:text="${option}"></option>
         </select><br><br>
         <input type="submit" value="Submit"><br><br>
     </form>
