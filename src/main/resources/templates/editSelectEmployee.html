@@ -32,8 +32,7 @@
         <input type="text" id="id" name="id" th:value="${employee.getId()}" style="background-color:lightgray" readonly><br>
         <label for="role">Role:</label><br>
         <select name="role" id="role">
-            <option value="EMPLOYEE">Employee</option>
-            <option value="MANAGER">Manager</option>
+            <option th:each="option : ${roles}" th:value="${option}" th:text="${option}"></option>
         </select><br><br>
         <input type="submit" value="Submit"><br><br>
     </form>

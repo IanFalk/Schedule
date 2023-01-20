@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <link rel="stylesheet" href="/css/schedulestyle.css">
+    <title>Template</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<header>
+    <div class="buttons">
+        <a class="button" href="/schedule/weekly">Weekly Schedule</a>
+        <a class="button" href="/schedule/employee">Your Schedule</a>
+    </div>
+    <div class="signout">
+        <form th:action="@{/logout}" method="post">
+            <input class="signout" type="submit" value="Sign Out"/>
+        </form>
+    </div>
+</header>
+
+<body>
+    <h1 th:text="${user}"></h1>
+</body>
+</html>

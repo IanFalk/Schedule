@@ -28,6 +28,8 @@ import java.util.Locale;
 public class GreetingController {
 
     private static final Logger log = LoggerFactory.getLogger(GreetingController.class);
+
+    protected String[] OPERATING_HOURS = {"09:00", "24"};
     
     @Autowired
     private EmployeeRepository eRepo;
@@ -83,7 +85,7 @@ public class GreetingController {
         model.addAttribute("schedule", schedule);
         model.addAttribute("user", principal.getName());
         
-        return "weeklyschedule";
+        return "weeklySchedule";
     }
 
     //Get the weekly schedule for only this employee
@@ -103,6 +105,8 @@ public class GreetingController {
             }
         }
 
+        log.info(targetEmployee.getFirstName());
+        //TODO: Add error handling if feteched employee is null
         //Find the shifts for the target employee
         if(targetEmployee != null) {
             List<scheduleDatabase> allShifts = sdRepo.findByEmpId(targetEmployee.getId());
@@ -118,7 +122,7 @@ public class GreetingController {
         model.addAttribute("shifts", shifts);
         model.addAttribute("employee", targetEmployee);
 
-        return "employeeschedule";
+        return "employeeSchedule";
         
     }
 
@@ -138,7 +142,7 @@ public class GreetingController {
     public String showAddEmployee(Model model) {
         List<String> ROLES_LIST = Employee.ROLES_LIST;
         model.addAttribute("roles", ROLES_LIST);
-        return "createEmployee";
+        return "addEmployee";
     }
 
     @Autowired
@@ -153,6 +157,7 @@ public class GreetingController {
         //Create new login for employee
         ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
 		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
+        log.info(pass);
         inMemoryUserDetailsManager.createUser(new User(fname.charAt(0)+lname, pass, grantedAuthoritiesList));
         
         return showAddEmployee(model);
@@ -181,10 +186,11 @@ public class GreetingController {
 
     @GetMapping("manager/employee/edit/select")
     public String showEditSelectEmployee(Model model, int editEmp) {
-        //List<String> roles = eRepo.findAllRoles();
         Employee emp = eRepo.findById(editEmp);
         model.addAttribute("employee", emp);
-        //model.addAttribute("roles", roles);
+        
+        List<String> ROLES_LIST = Employee.ROLES_LIST;
+        model.addAttribute("roles", ROLES_LIST);
         return "editSelectEmployee";
     }
 
