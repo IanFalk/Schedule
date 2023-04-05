@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -146,27 +148,30 @@ public class GreetingController {
     }
 
     @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
     private InMemoryUserDetailsManager inMemoryUserDetailsManager;
     @PostMapping("manager/employee/add")
     public String getAddEmployee(Model model, @RequestParam String fname, @RequestParam String lname, @RequestParam String pass, @RequestParam String role) {
         
         //Create new employee in database
-        Employee emp = new Employee(fname, lname, role);
+        Employee emp = new Employee(fname, lname, role, passwordEncoder.encode(pass));
         eRepo.save(emp);
 
         //Create new login for employee
         ArrayList<GrantedAuthority> grantedAuthoritiesList= new ArrayList<>();
 		grantedAuthoritiesList.add(new SimpleGrantedAuthority("ROLE_"+role));
-        log.info(pass);
-        inMemoryUserDetailsManager.createUser(new User(fname.charAt(0)+lname, pass, grantedAuthoritiesList));
+        UserDetails user = new User(fname.charAt(0)+lname, passwordEncoder.encode(pass), grantedAuthoritiesList);
+        inMemoryUserDetailsManager.createUser(user);
         
         return showAddEmployee(model);
     }
 
     @PostMapping("manager/employee/delete")
     public String getDeleteEmployee(@RequestParam int deleteEmp, Model model) {
+        Employee emp = eRepo.findById(deleteEmp);
         eRepo.deleteById(deleteEmp);
-
+        inMemoryUserDetailsManager.deleteUser(emp.getFirstName().charAt(0)+emp.getLastName());
         return showDeleteEmployee(model);
     }
 

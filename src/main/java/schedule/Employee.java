@@ -27,13 +27,15 @@ public class Employee {
     private String firstName;
     private String lastName;
     private String role;
+    private String password;
 
     protected Employee() {}
 
-    public Employee(String firstName, String lastName, String role) {
+    public Employee(String firstName, String lastName, String role, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.role = role;
+        this.password = password;
     }
 
     public int getId() {
@@ -66,6 +68,10 @@ public class Employee {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override

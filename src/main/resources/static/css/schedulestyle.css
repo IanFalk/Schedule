@@ -29,8 +29,18 @@ th, td {
     color: white;
 }
 
-a:hover,input:hover {
-    background-color: rgb(240, 49, 0);
+input {
+    border: 2px solid #000;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+input:valid {
+    border-color: green;
 }
 
 header {

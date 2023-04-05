@@ -24,16 +24,13 @@
 
 <body>
     <p>Delete an employee</p>
-    <form action="/manager/employee/delete/data">
+    <form action="/manager/employee/delete" th:action="@{/manager/employee/delete}" method="post">
         <select name="deleteEmp" id="deleteEmp">
             <tr th:each="employee: ${employees}">
                 <option th:value="${employee.getId()}" th:text="${employee.getFullName()}"></option>
             </tr>
         </select><br><br>
-        <input type="submit" value="Delete"><br><br>
-    </form>
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
+        <button type="submit" value="Delete">Delete</button><br><br>
     </form>
 </body>
 </html>

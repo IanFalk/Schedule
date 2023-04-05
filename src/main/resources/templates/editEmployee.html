@@ -29,8 +29,9 @@
             <tr th:each="employee: ${employees}">
                 <option th:value="${employee.getId()}" th:text="${employee.getFullName()}"></option>
             </tr>
-        <input type="submit" value="Submit"><br><br>
-        </select>
+        </select><br><br>
+        <button type="submit">Edit</button><br><br>
     </form>
+    
 </body>
 </html>

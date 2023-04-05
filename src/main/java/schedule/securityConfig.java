@@ -48,5 +48,9 @@ public class securityConfig {
 			.roles("GUEST").build());        
 		return new InMemoryUserDetailsManager(users);
 	}
+
+    public void createUser() {
+
+    }
     
 }
